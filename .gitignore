@@ -172,3 +172,13 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Streamlit's cache
+.streamlit/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# HTML/Map files (if auto-generated, optional)
+# *.html
