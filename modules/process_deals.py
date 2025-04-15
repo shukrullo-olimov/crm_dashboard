@@ -1697,7 +1697,7 @@ def process_deals(data):
             st.title("Распределение сделок на карте")
             
             # Загрузка HTML-файла карты
-            with open("deals_map.html", "r", encoding="utf-8") as f:
+            with open("assets/deals_map.html", "r", encoding="utf-8") as f:
                 map_html = f.read()
             
             # Встраивание карты в дашборд
