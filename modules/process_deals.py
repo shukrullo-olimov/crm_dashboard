@@ -313,7 +313,8 @@ def process_deals(data):
         correlation = monthly_data['Call Count'].corr(monthly_data['Deal Count'])
         st.write(f"Корреляция между звонками и созданием сделок: {correlation:.2f}")
 
-
+        
+        # Создаём фигуру с двумя осями Y
         fig_deals_calls = make_subplots(specs=[[{"secondary_y": True}]])
 
         # Добавление графика звонков на левую ось
@@ -603,7 +604,7 @@ def process_deals(data):
             
             # --- Первый график: Лиды и успешные сделки ---
             fig1 = make_subplots(specs=[[{"secondary_y": True}]], vertical_spacing=0.2)
-        
+
             # Лиды
             fig1.add_trace(
                 go.Bar(
@@ -614,45 +615,57 @@ def process_deals(data):
                 ),
                 secondary_y=False,
             )
-        
+            
             # Успешные сделки
             fig1.add_trace(
                 go.Scatter(
                     x=filtered_data['Campaign'],
                     y=filtered_data['Successful Deals'],
                     name="Successful Deals",
-                    mode="lines+markers+text",  # Добавляем текст
+                    mode="lines+markers+text",
                     line=dict(color="cornflowerblue"),
                     marker=dict(size=7),
-                    text=filtered_data['Successful Deals'],  # Отображаемое значение
-                    textposition="top center"  # Расположение текста
+                    text=filtered_data['Successful Deals'],
+                    textposition="top center"
                 ),
                 secondary_y=True,
             )
-        
+            
             fig1.update_layout(
-                title="Лиды и успешные сделки по кампаниям (Конверсия > 2%)",
+                title_text="Лиды и успешные сделки по кампаниям (Конверсия > 2%)",
                 height=600,
-                xaxis=dict(title="Кампании", tickangle=45),  # Угол наклона подписей оси X),
-                yaxis=dict(title="Количество лидов", 
-                           titlefont=dict(color='mediumorchid'),
-                           tickfont=dict(color='mediumorchid'), 
-                           showgrid=False,  # Отключает горизонтальную сетку для основной оси Y
-                           zeroline=False,
-                           side="left"),
-                yaxis2=dict(title="Количество успешных сделок", 
-                            titlefont=dict(color='royalblue'),
-                            tickfont=dict(color='royalblue'),
-                            showgrid=False,  # Отключает горизонтальную сетку для основной оси Y
-                            zeroline=False,
-                            side="right", 
-                            overlaying="y"),
-                legend=dict(orientation="h", x=0.5, xanchor="center", y=1.1)
+                xaxis=dict(
+                    title="Кампании",
+                    tickangle=45
+                ),
+                yaxis=dict(
+                    title=dict(
+                        text="Количество лидов",
+                        font=dict(color="mediumorchid")
+                    ),
+                    tickfont=dict(color="mediumorchid"),
+                    showgrid=False,
+                    zeroline=False
+                ),
+                legend=dict(orientation="h", x=0.5, xanchor="center", y=1.1),
+                plot_bgcolor='white'
             )
+            
+            fig1.update_yaxes(
+                title=dict(
+                    text="Количество успешных сделок",
+                    font=dict(color="royalblue")
+                ),
+                tickfont=dict(color="royalblue"),
+                showgrid=False,
+                zeroline=False,
+                secondary_y=True
+            )
+
         
             # --- Второй график: Лиды и коэффициент конверсии ---
             fig2 = make_subplots(specs=[[{"secondary_y": True}]], vertical_spacing=0.2)
-        
+
             # Лиды
             fig2.add_trace(
                 go.Bar(
@@ -663,40 +676,51 @@ def process_deals(data):
                 ),
                 secondary_y=False,
             )
-        
+            
             # Коэффициент конверсии
             fig2.add_trace(
                 go.Scatter(
                     x=filtered_data['Campaign'],
                     y=filtered_data['Conversion Rate (%)'],
                     name="Conversion Rate",
-                    mode="lines+markers+text",  # Добавляем текст
-                    line=dict(color="mediumseagreen"), # dash="dash"),
+                    mode="lines+markers+text",
+                    line=dict(color="mediumseagreen"),
                     marker=dict(size=7),
-                    text=filtered_data['Conversion Rate (%)'].round(),  # Отображаемое значение (округлено)
-                    textposition="top center"  # Расположение текста
+                    text=filtered_data['Conversion Rate (%)'].round(),
+                    textposition="top center"
                 ),
                 secondary_y=True,
             )
-        
+            
             fig2.update_layout(
-                title="Лиды и коэффициент конверсии по кампаниям (Конверсия > 2%)",
+                title_text="Лиды и коэффициент конверсии по кампаниям (Конверсия > 2%)",
                 height=600,
-                xaxis=dict(title="Кампании", tickangle=45),  # Угол наклона подписей оси X),
-                yaxis=dict(title="Количество лидов",
-                           titlefont=dict(color='mediumorchid'),
-                           tickfont=dict(color='mediumorchid'),
-                           showgrid=False,  # Отключает горизонтальную сетку для основной оси Y
-                           zeroline=False,
-                           side="left"),
-                yaxis2=dict(title="Коэффициент конверсии (%)", 
-                            titlefont=dict(color='green'),
-                            tickfont=dict(color='green'),
-                            showgrid=False,  # Отключает горизонтальную сетку для основной оси Y
-                            zeroline=False,
-                            side="right", 
-                            overlaying="y"),
-                legend=dict(orientation="h", x=0.5, xanchor="center", y=1.1)
+                xaxis=dict(
+                    title="Кампании",
+                    tickangle=45
+                ),
+                yaxis=dict(
+                    title=dict(
+                        text="Количество лидов",
+                        font=dict(color="mediumorchid")
+                    ),
+                    tickfont=dict(color="mediumorchid"),
+                    showgrid=False,
+                    zeroline=False
+                ),
+                legend=dict(orientation="h", x=0.5, xanchor="center", y=1.1),
+                plot_bgcolor='white'
+            )
+            
+            fig2.update_yaxes(
+                title=dict(
+                    text="Коэффициент конверсии (%)",
+                    font=dict(color="green")
+                ),
+                tickfont=dict(color="green"),
+                showgrid=False,
+                zeroline=False,
+                secondary_y=True
             )
         
             # --- Вывод графиков ---
