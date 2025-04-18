@@ -313,10 +313,10 @@ def process_deals(data):
         correlation = monthly_data['Call Count'].corr(monthly_data['Deal Count'])
         st.write(f"Корреляция между звонками и созданием сделок: {correlation:.2f}")
 
-        # Создаём фигуру с двумя Y-осями
+
         fig_deals_calls = make_subplots(specs=[[{"secondary_y": True}]])
-        
-        # Линия для количества звонков (первая ось Y)
+
+        # Добавление графика звонков на левую ось
         fig_deals_calls.add_trace(
             go.Scatter(
                 x=monthly_data['Date'],
@@ -325,10 +325,10 @@ def process_deals(data):
                 name='Количество звонков',
                 line=dict(color='mediumorchid')
             ),
-            secondary_y=False  # Связь с первой осью
+            secondary_y=False
         )
         
-        # Линия для количества сделок (вторая ось Y)
+        # Добавление графика сделок на правую ось
         fig_deals_calls.add_trace(
             go.Scatter(
                 x=monthly_data['Date'],
@@ -337,10 +337,10 @@ def process_deals(data):
                 name='Количество сделок',
                 line=dict(color='royalblue')
             ),
-            secondary_y=True  # Связь со второй осью
+            secondary_y=True
         )
         
-        # Настройка осей и макета
+        # Обновление макета (без yaxis2!)
         fig_deals_calls.update_layout(
             xaxis=dict(title='Дата'),
             yaxis=dict(
@@ -349,15 +349,18 @@ def process_deals(data):
                 tickfont=dict(color='mediumorchid'),
                 showgrid=False
             ),
-            yaxis2=dict(
-                title='Количество сделок',
-                titlefont=dict(color='royalblue'),
-                tickfont=dict(color='royalblue'),
-                showgrid=False
-            ),
             legend=dict(x=0.5, xanchor='center', y=-0.2, orientation='h'),
             plot_bgcolor='white',
             margin=dict(l=50, r=50, t=50, b=50)
+        )
+        
+        # Настройка второй оси через метод update_yaxes
+        fig_deals_calls.update_yaxes(
+            title_text="Количество сделок",
+            titlefont=dict(color='royalblue'),
+            tickfont=dict(color='royalblue'),
+            showgrid=False,
+            secondary_y=True
         )
         # fig_deals_calls = go.Figure()
         
