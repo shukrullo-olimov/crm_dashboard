@@ -442,12 +442,9 @@ def process_deals(data):
         
         # Настройка осей
         fig_deals_calls.update_layout(
-            xaxis=dict(title='Дата'),
+            xaxis_title='Дата',
+            yaxis_title='Количество звонков',
             yaxis=dict(
-                title=dict(
-                    text='Количество звонков',
-                    font=dict(color='mediumorchid')
-                ),
                 tickfont=dict(color='mediumorchid'),
                 showgrid=False
             ),
@@ -455,6 +452,7 @@ def process_deals(data):
             plot_bgcolor='white',
             margin=dict(l=50, r=50, t=50, b=50)
         )
+
         
         # Настройка второй оси (успешные сделки)
         fig_deals_calls.update_yaxes(
