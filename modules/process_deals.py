@@ -1254,6 +1254,10 @@ def process_deals(data):
     
             
             # Средние платежи
+            # Создаём фигуру
+            detailed_fig = make_subplots(specs=[[{"secondary_y": True}]])
+            
+            # Средние платежи
             detailed_fig.add_trace(
                 go.Bar(
                     x=detailed_summary.index,
@@ -1261,7 +1265,7 @@ def process_deals(data):
                     name='Avg Initial Payment',
                     marker_color='blue',
                     text=detailed_summary['avg_initial_payment'],
-                    textposition='inside',  # Позиция меток
+                    textposition='inside',
                     opacity=0.6
                 ),
                 secondary_y=False
@@ -1276,35 +1280,38 @@ def process_deals(data):
                     mode='lines+markers+text',
                     line=dict(color='orange', width=2),
                     text=detailed_summary['avg_study_months'],
-                    textposition='top center',
-                    textfont=dict(color='orange')  # Цвет текста
+                    textposition='top center'
                 ),
                 secondary_y=True
             )
             
+            # Обновление макета
             detailed_fig.update_layout(
-                title='Initial Payment and Study Months by Payment Type',
-                xaxis=dict(title='Payment Type'),
+                title_text='Initial Payment and Study Months by Payment Type',
+                xaxis_title='Payment Type',
+                yaxis_title='Initial Payment',
                 yaxis=dict(
-                    title='Initial Payment',
-                    titlefont=dict(color='royalblue'),
                     tickfont=dict(color='royalblue'),
                     zeroline=False,
                     showgrid=False
                 ),
-                yaxis2=dict(
-                    title='Months of Study',
-                    overlaying='y', 
-                    side='right',
-                    titlefont=dict(color='orange'),
-                    tickfont=dict(color='orange'),
-                    zeroline=False,
-                    showgrid=False  
-                ),
                 legend=dict(x=0.8, xanchor='center', y=1),
                 template='plotly_white'
             )
-    
+            
+            # Вторая ось
+            detailed_fig.update_yaxes(
+                title=dict(
+                    text='Months of Study',
+                    font=dict(color='orange')
+                ),
+                tickfont=dict(color='orange'),
+                zeroline=False,
+                showgrid=False,
+                secondary_y=True
+            )
+            
+            # Показываем график
             st.plotly_chart(detailed_fig, use_container_width=True)
 
             
