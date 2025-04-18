@@ -358,12 +358,15 @@ def process_deals(data):
         
         # Настройка второй оси через метод update_yaxes
         fig_deals_calls.update_yaxes(
-            title_text="Количество сделок",
-            titlefont=dict(color='royalblue'),
+            title=dict(
+                text="Количество сделок",
+                font=dict(color='royalblue')
+            ),
             tickfont=dict(color='royalblue'),
             showgrid=False,
             secondary_y=True
         )
+
         
         st.plotly_chart(fig_deals_calls)
 
