@@ -634,22 +634,23 @@ def process_deals(data):
             fig1.update_layout(
                 title_text="Лиды и успешные сделки по кампаниям (Конверсия > 2%)",
                 height=600,
-                xaxis=dict(
-                    title="Кампании",
-                    tickangle=45
-                ),
+                xaxis_title="Кампании",
+                xaxis=dict(tickangle=45),
+                yaxis_title="Количество лидов",
                 yaxis=dict(
-                    title=dict(
-                        text="Количество лидов",
-                        font=dict(color="mediumorchid")
-                    ),
                     tickfont=dict(color="mediumorchid"),
                     showgrid=False,
                     zeroline=False
                 ),
-                legend=dict(orientation="h", x=0.5, xanchor="center", y=1.1),
+                legend=dict(
+                    orientation="h",
+                    x=0.5,
+                    xanchor="center",
+                    y=1.02  # <= важно! 1.1 может вылетать с ошибкой!
+                ),
                 plot_bgcolor='white'
             )
+
             
             fig1.update_yaxes(
                 title=dict(
@@ -695,22 +696,23 @@ def process_deals(data):
             fig2.update_layout(
                 title_text="Лиды и коэффициент конверсии по кампаниям (Конверсия > 2%)",
                 height=600,
-                xaxis=dict(
-                    title="Кампании",
-                    tickangle=45
-                ),
+                xaxis_title="Кампании",
+                xaxis=dict(tickangle=45),
+                yaxis_title="Количество лидов",
                 yaxis=dict(
-                    title=dict(
-                        text="Количество лидов",
-                        font=dict(color="mediumorchid")
-                    ),
                     tickfont=dict(color="mediumorchid"),
                     showgrid=False,
                     zeroline=False
                 ),
-                legend=dict(orientation="h", x=0.5, xanchor="center", y=1.1),
+                legend=dict(
+                    orientation="h",
+                    x=0.5,
+                    xanchor="center",
+                    y=1.02  # <= поправка
+                ),
                 plot_bgcolor='white'
             )
+
             
             fig2.update_yaxes(
                 title=dict(
