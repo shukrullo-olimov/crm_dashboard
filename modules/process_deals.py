@@ -1786,10 +1786,11 @@ def process_deals(data):
             success_rate = level_analysis_sorted['success_rate']
             total_deals = level_analysis_sorted['total_deals']
             
-            # Создание фигуры Plotly
-            fig = go.Figure()
+
+            # Создание фигуры с двумя Y-осями
+            fig = make_subplots(specs=[[{"secondary_y": True}]])
             
-            # Добавление бара для успешности сделок
+            # Бар: Success Rate
             fig.add_trace(
                 go.Bar(
                     x=levels,
@@ -1797,14 +1798,13 @@ def process_deals(data):
                     name='Success Rate',
                     marker_color='royalblue',
                     opacity=0.7,
-                    yaxis='y1',
-                    text=level_analysis['successful_deals'],  # Добавление меток
-                    textposition='inside',  # Позиция меток
-                    textfont=dict(color='deepskyblue'),  # Цвет текста
-                )
+                    text=level_analysis['successful_deals'],
+                    textposition='inside'
+                ),
+                secondary_y=False
             )
             
-            # Добавление линии для общего количества сделок
+            # Линия: Total Deals
             fig.add_trace(
                 go.Scatter(
                     x=levels,
@@ -1812,48 +1812,46 @@ def process_deals(data):
                     name='Total Deals',
                     mode='lines+markers+text',
                     line=dict(color='violet', width=2, dash='dot'),
-                    yaxis='y2',
-                    text=total_deals,  # Значения для отображения
-                    textposition='top center',  # Позиция текста
-                    textfont=dict(color='violet'),  # Цвет текста
-                )
+                    text=total_deals,
+                    textposition='top center'
+                ),
+                secondary_y=True
             )
             
-            # Настройки осей и оформление
+            # Настройки оформления
             fig.update_layout(
-                title='Успешность сделок и общее количество по уровням знания языка',
-                xaxis=dict(title='Level of Deutsch'),
+                title_text='Успешность сделок и общее количество по уровням знания языка',
+                xaxis_title='Level of Deutsch',
+                yaxis_title='Success Rate',
                 yaxis=dict(
-                    title='Success Rate',
                     range=[0, 1],
-                    titlefont=dict(color='royalblue'),
                     tickfont=dict(color='royalblue'),
                     showgrid=False
                 ),
-                yaxis2=dict(
-                    title='Total Deals',
-                    overlaying='y',
-                    side='right',
-                    titlefont=dict(color='violet'),
-                    tickfont=dict(color='violet'),
-                    showgrid=False,
-                    zeroline=False
-                ),
                 legend=dict(
                     x=0.5,
-                    y=1.1,
+                    y=1.05,
+                    xanchor='center',
                     orientation="h"
                 ),
                 bargap=0.2,
                 plot_bgcolor='white',
-                hovermode='x unified',
+                hovermode='x unified'
             )
             
-            # Добавление сетки для удобства
-            # fig.update_xaxes(showgrid=True, gridwidth=0.5, gridcolor='lightgrey')
-            # fig.update_yaxes(showgrid=True, gridwidth=0.5, gridcolor='lightgrey')
+            # Настройка правой оси
+            fig.update_yaxes(
+                title=dict(
+                    text='Total Deals',
+                    font=dict(color='violet')
+                ),
+                tickfont=dict(color='violet'),
+                showgrid=False,
+                zeroline=False,
+                secondary_y=True
+            )
             
-            # Встраивание графика в Streamlit
+            # Отображение в Streamlit
             st.plotly_chart(fig, use_container_width=True)
 
 
