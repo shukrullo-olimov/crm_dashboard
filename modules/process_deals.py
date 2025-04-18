@@ -1611,8 +1611,8 @@ def process_deals(data):
                     y=top_cities['total_deals'],
                     name='Total Deals',
                     marker_color='cornflowerblue',
-                    text=top_cities['total_deals'],  # Добавление меток
-                    textposition='outside',  # Позиция меток
+                    text=top_cities['total_deals'],
+                    textposition='outside',
                 ),
                 secondary_y=False
             )
@@ -1629,31 +1629,34 @@ def process_deals(data):
                 secondary_y=True
             )
             
-            # Настройка осей
             fig_city.update_layout(
-                title='Top 10 Cities: Deals and Conversion Rates',
-                xaxis=dict(title='City', tickangle=45),
-                yaxis = dict(
-                    title="Number of Deals",
-                    titlefont=dict(color="steelblue"),
+                title_text='Top 10 Cities: Deals and Conversion Rates',
+                xaxis_title='City',
+                xaxis=dict(tickangle=45),
+                yaxis_title='Number of Deals',
+                yaxis=dict(
                     tickfont=dict(color="steelblue"),
                     zeroline=False,
-                    showgrid=False,
-                ),
-                yaxis2 = dict(
-                    title="Conversion Rate",
-                    titlefont=dict(color="magenta"),
-                    tickfont=dict(color="magenta"),
-                    zeroline=False,
-                    showgrid=False,
+                    showgrid=False
                 ),
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
                 plot_bgcolor="white",
                 height=500
             )
-
-            # Отображение графика в Streamlit
+            
+            fig_city.update_yaxes(
+                title=dict(
+                    text="Conversion Rate",
+                    font=dict(color="magenta")
+                ),
+                tickfont=dict(color="magenta"),
+                zeroline=False,
+                showgrid=False,
+                secondary_y=True
+            )
+            
             st.plotly_chart(fig_city, use_container_width=True)
+
 
 
             st.subheader("Распределение сделок по странам")
@@ -1682,21 +1685,19 @@ def process_deals(data):
             
             # Создание графика с двойной осью
             fig_countries = make_subplots(specs=[[{"secondary_y": True}]])
-            
-            # Гистограмма количества сделок (левая ось)
+
             fig_countries.add_trace(
                 go.Bar(
                     x=top_countries.index,
                     y=top_countries['total_deals'],
                     name='Total Deals',
                     marker_color='skyblue',
-                    text=top_countries['total_deals'],  # Добавление меток
-                    textposition='outside',  # Позиция меток
+                    text=top_countries['total_deals'],
+                    textposition='outside',
                 ),
                 secondary_y=False
             )
             
-            # Линейный график коэффициента конверсии (правая ось)
             fig_countries.add_trace(
                 go.Scatter(
                     x=top_countries.index,
@@ -1708,31 +1709,34 @@ def process_deals(data):
                 secondary_y=True
             )
             
-            # Настройка осей
             fig_countries.update_layout(
-                title='Top 10 Countries: Deals and Conversion Rates',
-                xaxis=dict(title='Country', tickangle=45),
+                title_text='Top 10 Countries: Deals and Conversion Rates',
+                xaxis_title='Country',
+                xaxis=dict(tickangle=45),
+                yaxis_title='Number of Deals',
                 yaxis=dict(
-                    title="Number of Deals",
-                    titlefont=dict(color="steelblue"),
                     tickfont=dict(color="steelblue"),
                     zeroline=False,
-                    showgrid=False,
-                ),
-                yaxis2=dict(
-                    title="Conversion Rate",
-                    titlefont=dict(color="green"),
-                    tickfont=dict(color="green"),
-                    zeroline=False,
-                    showgrid=False,
+                    showgrid=False
                 ),
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
                 plot_bgcolor="white",
                 height=500
             )
             
-            # Отображение графика в Streamlit
+            fig_countries.update_yaxes(
+                title=dict(
+                    text="Conversion Rate",
+                    font=dict(color="green")
+                ),
+                tickfont=dict(color="green"),
+                zeroline=False,
+                showgrid=False,
+                secondary_y=True
+            )
+            
             st.plotly_chart(fig_countries, use_container_width=True)
+
             
             # Заголовок для раздела
             st.title("Распределение сделок на карте")
