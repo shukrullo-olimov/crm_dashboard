@@ -1007,20 +1007,18 @@ def process_deals(data):
             # --- Первый график: Закрытые сделки и Total Sales Amount ---
             fig1 = make_subplots(specs=[[{"secondary_y": True}]])
             
-            # Закрытые сделки
             fig1.add_trace(
                 go.Bar(
                     x=campaigns_with_sales.index,
                     y=campaigns_with_sales['Closed Deals (Payment Done)'],
                     name='Closed Deals',
                     marker_color='skyblue',
-                    text=campaigns_with_sales['Closed Deals (Payment Done)'],  # Добавление меток
-                    textposition='inside'  # Позиция меток
+                    text=campaigns_with_sales['Closed Deals (Payment Done)'],
+                    textposition='inside'
                 ),
                 secondary_y=False,
             )
             
-            # Total Sales Amount
             fig1.add_trace(
                 go.Scatter(
                     x=campaigns_with_sales.index,
@@ -1028,91 +1026,91 @@ def process_deals(data):
                     name='Total Sales Amount',
                     mode='lines+markers',
                     line=dict(color='purple'),
-                    # text=campaigns_with_sales['Total Sales Amount'],  # Значения меток
-                    # textposition='top center'  # Позиция текста
+                    marker=dict(size=7)
                 ),
                 secondary_y=True,
             )
             
             fig1.update_layout(
-                title='Effectiveness of Campaigns: Sales & Closed Deals',
+                title_text='Effectiveness of Campaigns: Sales & Closed Deals',
                 height=500,
                 xaxis_title='Campaign',
-                xaxis=dict(tickangle=45),  # Угол наклона подписей оси X
+                xaxis=dict(tickangle=45),
+                yaxis_title='Closed Deals (Count)',
                 yaxis=dict(
-                    title='Closed Deals (Count)',
-                    titlefont=dict(color='steelblue'),
                     tickfont=dict(color='steelblue'),
                     zeroline=False,
-                    showgrid=False  # Отключает горизонтальную сетку для основной оси Y
+                    showgrid=False
                 ),
-                yaxis2=dict(
-                    title='Total Sales Amount',
-                    titlefont=dict(color='purple'),
-                    tickfont=dict(color='purple'),
-                    side='right',
-                    overlaying='y',
-                    zeroline=False,
-                    showgrid=False  # Отключает горизонтальную сетку для второй оси Y
-                ),
-                legend=dict(x=0.5, xanchor='center', y=1.1, orientation="h"),
+                legend=dict(x=0.5, xanchor='center', y=1.02, orientation="h"),
                 template='plotly_white'
             )
             
+            fig1.update_yaxes(
+                title=dict(
+                    text='Total Sales Amount',
+                    font=dict(color='purple')
+                ),
+                tickfont=dict(color='purple'),
+                zeroline=False,
+                showgrid=False,
+                secondary_y=True
+            )
+
+            
             # --- Второй график: Закрытые сделки и Conversion Rate ---
             fig2 = make_subplots(specs=[[{"secondary_y": True}]])
-            
-            # Закрытые сделки
+
             fig2.add_trace(
                 go.Bar(
                     x=campaigns_with_sales.index,
                     y=campaigns_with_sales['Closed Deals (Payment Done)'],
                     name='Closed Deals',
                     marker_color='skyblue',
-                    text=campaigns_with_sales['Closed Deals (Payment Done)'],  # Добавление меток
-                    textposition='inside'  # Позиция меток
+                    text=campaigns_with_sales['Closed Deals (Payment Done)'],
+                    textposition='inside'
                 ),
                 secondary_y=False,
             )
             
-            # Conversion Rate
             fig2.add_trace(
                 go.Scatter(
                     x=campaigns_with_sales.index,
                     y=campaigns_with_sales['Conversion Rate (%)'],
                     name='Conversion Rate',
                     mode='lines+markers',
-                    line=dict(color='green') #  dash='dash'
-                    # text=campaigns_with_sales['Conversion Rate (%)'],  # Значения меток
-                    # textposition='top center'  # Позиция текста
+                    line=dict(color='green'),
+                    marker=dict(size=7)
                 ),
                 secondary_y=True,
             )
             
             fig2.update_layout(
-                title='Effectiveness of Campaigns: Conversion Rate & Closed Deals',
+                title_text='Effectiveness of Campaigns: Conversion Rate & Closed Deals',
                 height=500,
                 xaxis_title='Campaign',
-                xaxis=dict(tickangle=45),  # Угол наклона подписей оси X
+                xaxis=dict(tickangle=45),
+                yaxis_title='Closed Deals (Count)',
                 yaxis=dict(
-                    title='Closed Deals (Count)',
-                    titlefont=dict(color='steelblue'),
                     tickfont=dict(color='steelblue'),
                     zeroline=False,
-                    showgrid=False  # Отключает горизонтальную сетку для основной оси Y
+                    showgrid=False
                 ),
-                yaxis2=dict(
-                    title='Conversion Rate (%)',
-                    titlefont=dict(color='green'),
-                    tickfont=dict(color='green'),
-                    side='right',
-                    overlaying='y',
-                    zeroline=False,
-                    showgrid=False  # Отключает горизонтальную сетку для второй оси Y
-                ),
-                legend=dict(x=0.5, xanchor='center', y=1.1, orientation="h"),
+                legend=dict(x=0.5, xanchor='center', y=1.02, orientation="h"),
                 template='plotly_white'
             )
+            
+            fig2.update_yaxes(
+                title=dict(
+                    text='Conversion Rate (%)',
+                    font=dict(color='green')
+                ),
+                tickfont=dict(color='green'),
+                zeroline=False,
+                showgrid=False,
+                secondary_y=True
+            )
+
     
             st.plotly_chart(fig1, use_container_width=True)
             st.plotly_chart(fig2, use_container_width=True)
