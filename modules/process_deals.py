@@ -903,33 +903,35 @@ def process_deals(data):
             )
             
             fig1.update_layout(
-                title='Effectiveness of Deal Owners: Sales & Closed Deals',
+                title_text='Effectiveness of Deal Owners: Sales & Closed Deals',
                 xaxis_title='Deal Owner Name',
+                yaxis_title='Closed Deals (Count)',
                 yaxis=dict(
-                    title='Closed Deals (Count)',
-                    titlefont=dict(color='steelblue'),
                     tickfont=dict(color='steelblue'),
                     zeroline=False,
                     showgrid=False
                 ),
-                yaxis2=dict(
-                    title='Total Sales Amount',
-                    titlefont=dict(color='purple'),
-                    tickfont=dict(color='purple'),
-                    overlaying='y',
-                    side='right',
-                    zeroline=False,
-                    showgrid=False
-                ),
-                legend=dict(x=0.5, xanchor='center', y=1.1, orientation="h"),
+                legend=dict(x=0.5, xanchor='center', y=1.02, orientation="h"),
                 template='plotly_white'
             )
             
+            fig1.update_yaxes(
+                title=dict(
+                    text='Total Sales Amount',
+                    font=dict(color='purple')
+                ),
+                tickfont=dict(color='purple'),
+                zeroline=False,
+                showgrid=False,
+                secondary_y=True
+            )
+            
             st.plotly_chart(fig1, use_container_width=True)
+
             
             # График 2: Закрытые сделки и коэффициент конверсии
             fig2 = make_subplots(specs=[[{"secondary_y": True}]])
-            
+
             fig2.add_trace(
                 go.Bar(
                     x=owners_with_sales.index,
@@ -955,29 +957,31 @@ def process_deals(data):
             )
             
             fig2.update_layout(
-                title='Effectiveness of Deal Owners: Conversion Rate & Closed Deals',
+                title_text='Effectiveness of Deal Owners: Conversion Rate & Closed Deals',
                 xaxis_title='Deal Owner Name',
+                yaxis_title='Closed Deals (Count)',
                 yaxis=dict(
-                    title='Closed Deals (Count)',
-                    titlefont=dict(color='steelblue'),
                     tickfont=dict(color='steelblue'),
                     zeroline=False,
                     showgrid=False
                 ),
-                yaxis2=dict(
-                    title='Conversion Rate (%)',
-                    titlefont=dict(color='green'),
-                    tickfont=dict(color='green'),
-                    overlaying='y',
-                    side='right',
-                    zeroline=False,
-                    showgrid=False
-                ),
-                legend=dict(x=0.5, xanchor='center', y=1.1, orientation="h"),
+                legend=dict(x=0.5, xanchor='center', y=1.02, orientation="h"),
                 template='plotly_white'
             )
             
+            fig2.update_yaxes(
+                title=dict(
+                    text='Conversion Rate (%)',
+                    font=dict(color='green')
+                ),
+                tickfont=dict(color='green'),
+                zeroline=False,
+                showgrid=False,
+                secondary_y=True
+            )
+            
             st.plotly_chart(fig2, use_container_width=True)
+
 
 
 
