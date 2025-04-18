@@ -313,56 +313,102 @@ def process_deals(data):
         correlation = monthly_data['Call Count'].corr(monthly_data['Deal Count'])
         st.write(f"Корреляция между звонками и созданием сделок: {correlation:.2f}")
 
-        fig_deals_calls = go.Figure()
+        # Создаём фигуру с двумя Y-осями
+        fig_deals_calls = make_subplots(specs=[[{"secondary_y": True}]])
         
-        # Линия для количества звонков
+        # Линия для количества звонков (первая ось Y)
         fig_deals_calls.add_trace(
             go.Scatter(
                 x=monthly_data['Date'],
                 y=monthly_data['Call Count'],
                 mode='lines+markers',
                 name='Количество звонков',
-                line=dict(color='mediumorchid'),
-                yaxis='y1'  # Связь с первой осью
-            )
+                line=dict(color='mediumorchid')
+            ),
+            secondary_y=False  # Связь с первой осью
         )
         
-        # Линия для количества успешных сделок
+        # Линия для количества сделок (вторая ось Y)
         fig_deals_calls.add_trace(
             go.Scatter(
                 x=monthly_data['Date'],
                 y=monthly_data['Deal Count'],
-                mode="lines+markers",  # Добавляем текст
+                mode='lines+markers',
                 name='Количество сделок',
-                line=dict(color='royalblue'),
-                yaxis='y2',  # Связь со второй осью
-                # text=monthly_data['Deal Count'].round(),  # Отображаемое значение (округлено)
-                # textposition="top center"  # Расположение текста
-            )
+                line=dict(color='royalblue')
+            ),
+            secondary_y=True  # Связь со второй осью
         )
         
-        # Настройка осей
+        # Настройка осей и макета
         fig_deals_calls.update_layout(
-            # title='Связь между звонками и созданием успешных сделок',
             xaxis=dict(title='Дата'),
             yaxis=dict(
                 title='Количество звонков',
                 titlefont=dict(color='mediumorchid'),
                 tickfont=dict(color='mediumorchid'),
-                showgrid=False  # Отключает горизонтальную сетку для основной оси Y
+                showgrid=False
             ),
             yaxis2=dict(
                 title='Количество сделок',
                 titlefont=dict(color='royalblue'),
                 tickfont=dict(color='royalblue'),
-                showgrid=False,  # Отключает горизонтальную сетку для основной оси Y
-                overlaying='y',
-                side='right'
+                showgrid=False
             ),
-            legend=dict(x=0.5, xanchor='center', y=-0.2, orientation='h'),  # Легенда внизу
+            legend=dict(x=0.5, xanchor='center', y=-0.2, orientation='h'),
             plot_bgcolor='white',
             margin=dict(l=50, r=50, t=50, b=50)
         )
+        # fig_deals_calls = go.Figure()
+        
+        # # Линия для количества звонков
+        # fig_deals_calls.add_trace(
+        #     go.Scatter(
+        #         x=monthly_data['Date'],
+        #         y=monthly_data['Call Count'],
+        #         mode='lines+markers',
+        #         name='Количество звонков',
+        #         line=dict(color='mediumorchid'),
+        #         yaxis='y1'  # Связь с первой осью
+        #     )
+        # )
+        
+        # # Линия для количества успешных сделок
+        # fig_deals_calls.add_trace(
+        #     go.Scatter(
+        #         x=monthly_data['Date'],
+        #         y=monthly_data['Deal Count'],
+        #         mode="lines+markers",  # Добавляем текст
+        #         name='Количество сделок',
+        #         line=dict(color='royalblue'),
+        #         yaxis='y2',  # Связь со второй осью
+        #         # text=monthly_data['Deal Count'].round(),  # Отображаемое значение (округлено)
+        #         # textposition="top center"  # Расположение текста
+        #     )
+        # )
+        
+        # # Настройка осей
+        # fig_deals_calls.update_layout(
+        #     # title='Связь между звонками и созданием успешных сделок',
+        #     xaxis=dict(title='Дата'),
+        #     yaxis=dict(
+        #         title='Количество звонков',
+        #         titlefont=dict(color='mediumorchid'),
+        #         tickfont=dict(color='mediumorchid'),
+        #         showgrid=False  # Отключает горизонтальную сетку для основной оси Y
+        #     ),
+        #     yaxis2=dict(
+        #         title='Количество сделок',
+        #         titlefont=dict(color='royalblue'),
+        #         tickfont=dict(color='royalblue'),
+        #         showgrid=False,  # Отключает горизонтальную сетку для основной оси Y
+        #         overlaying='y',
+        #         side='right'
+        #     ),
+        #     legend=dict(x=0.5, xanchor='center', y=-0.2, orientation='h'),  # Легенда внизу
+        #     plot_bgcolor='white',
+        #     margin=dict(l=50, r=50, t=50, b=50)
+        # )
         
         # Отображение графика в Streamlit
         st.plotly_chart(fig_deals_calls)
